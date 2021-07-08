@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": "./index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/1000nettles/foundry-magic-l18n.git"
@@ -15,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/1000nettles/foundry-magic-l18n/issues"
   },
-  "homepage": "https://github.com/1000nettles/foundry-magic-l18n#readme"
+  "homepage": "https://github.com/1000nettles/foundry-magic-l18n#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "chalk": "^4.1.1",
+    "commander": "^8.0.0",
+    "conf": "^10.0.1"
+  }
 }

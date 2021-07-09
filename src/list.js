@@ -80,9 +80,9 @@ async function _getJobUpdate(job) {
   }
 
   if (response.data?.status === Constants.STATUS_COMPLETE) {
-    job.download = response.data.download
     job.status = Constants.STATUS_COMPLETE;
     job.completed = Date.now();
+    job.download = response.data.download
 
     return job;
   }

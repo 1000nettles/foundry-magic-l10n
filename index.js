@@ -2,16 +2,23 @@
 
 const { program } = require('commander');
 const chalk = require('chalk');
+const conf = new (require('conf'))();
 const axios = require('axios');
 
 const baseUrl = 'https://wve2ggwi04.execute-api.us-east-1.amazonaws.com/staging/';
 const localizeUrl = baseUrl + 'localize';
 const retrieveUrl = baseUrl + 'retrieve';
+const confKey = 'jobs';
 
 program
   .command('run <manifest_url>')
   .description('Run the Foundry Magic L18n on the provided manifest URL. Manifest must be publicly accessible.')
   .action(run);
+
+program
+  .command('list')
+  .description('List all of your Foundry Magic L18n Service jobs')
+  .action(list);
 
 /**
  * Run the localizations.
@@ -50,9 +57,39 @@ async function run(manifest) {
     return;
   }
 
+  const jobId = response.data.jobsId;
+
   console.log(
     chalk.green('Success! Your localization is processing. Your job ID is ')
-    + chalk.green.bold(response.data.jobsId)
+    + chalk.green.bold(jobId)
+  );
+
+  // Store our data.
+  let jobs = conf.get(confKey) || [];
+  jobs.push({
+    jobId,
+    status: 'PROCESSING',
+    started: Date.now(),
+    completed: null,
+    comments: '',
+  });
+  conf.set(confKey, jobs);
+}
+
+function list() {
+  let data = conf.get(confKey) || [];
+
+  let finalData = [];
+
+  for (datum of data) {
+    datum.started = new Date(datum.started).toLocaleDateString()
+      + ' '
+      + new Date(datum.started).toLocaleTimeString();
+    finalData.push(datum);
+  }
+
+  console.log(
+    finalData
   );
 }
 

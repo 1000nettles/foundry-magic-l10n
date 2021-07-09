@@ -31,7 +31,7 @@ module.exports = async (manifestUrl) => {
   }
 
   console.log(
-    chalk.green('Manifest URL is valid, submitting to the Foundry Magic L18n service...')
+    chalk.green('Manifest URL is valid, submitting to the Foundry Magic L10n service...')
   );
 
   const response = await axios.get(Constants.LOCALIZE_URL, {
@@ -44,7 +44,7 @@ module.exports = async (manifestUrl) => {
 
   if (response.status !== 200 || !jobId) {
     console.log(
-      chalk.red(`There was an issue connecting to the Foundry Magic L18n service: ${response.data}`)
+      chalk.red(`There was an issue connecting to the Foundry Magic L10n service: ${response.data}`)
     );
 
     return;
@@ -68,7 +68,7 @@ module.exports = async (manifestUrl) => {
 
   console.log(
     chalk.green('Check up on your processing job by running: ')
-    + chalk.cyan('foundry-magic-l18n list')
+    + chalk.cyan('foundry-magic-l10n list')
   );
 
   console.log(
@@ -95,7 +95,7 @@ function _checkJobAlreadyRunning() {
       );
       console.log(
         chalk.yellow(`Check up on this job by running `)
-        + chalk.cyan('foundry-magic-l18n list')
+        + chalk.cyan('foundry-magic-l10n list')
       );
       return true;
     }

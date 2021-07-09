@@ -1,18 +1,18 @@
 {
-  "name": "foundry-magic-l18n",
+  "name": "foundry-magic-l10n",
   "version": "1.0.0",
-  "description": "A CLI tool for interacting with the Foundry Magic L18n service.",
+  "description": "A CLI tool for interacting with the Foundry Magic L10n service.",
   "bin": "./src/main.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1000nettles/foundry-magic-l18n.git"
+    "url": "git+https://github.com/1000nettles/foundry-magic-l10n.git"
   },
   "author": "1000Nettles",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/1000nettles/foundry-magic-l18n/issues"
+    "url": "https://github.com/1000nettles/foundry-magic-l10n/issues"
   },
-  "homepage": "https://github.com/1000nettles/foundry-magic-l18n",
+  "homepage": "https://github.com/1000nettles/foundry-magic-l10n",
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.1",

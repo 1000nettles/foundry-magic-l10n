@@ -18,7 +18,7 @@ module.exports = async () => {
   if (!jobs.length) {
     console.log(
       chalk.green('No jobs found! Localize a module by running: ')
-      + chalk.cyan('foundry-magic-l18n run <your_manifest_url_here>')
+      + chalk.cyan('foundry-magic-l10n run <your_manifest_url_here>')
     );
 
     return;

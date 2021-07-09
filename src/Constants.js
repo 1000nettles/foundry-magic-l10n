@@ -5,7 +5,7 @@
  */
 module.exports = class Constants {
   static get BASE_URL() {
-    return 'https://wve2ggwi04.execute-api.us-east-1.amazonaws.com/staging/';
+    return 'https://vtyswuxln2.execute-api.us-east-1.amazonaws.com/staging/';
   }
 
   static get LOCALIZE_URL() {

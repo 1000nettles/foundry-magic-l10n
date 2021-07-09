@@ -61,6 +61,6 @@ Once our quota limits are increased...
 * Is this a complete replacement for human-translated strings? 
    * Nope - AWS Translate is really good, but there will always be things that a human will translate better than a machine.
 * Will this generate files for existing translations / language files I have within my module?
-  * No - the service will determine which of the above supported languages you _don't_ have language files for and generate for those.
+  * Yes it will - it will generate all the supported languages. This is helpful if you already have translation files but they do not contain all the new strings added to the `en` language. It is still up to you to copy over the relevant new strings.
 * I got an error, where do I report it?
    * Please add an issue [here](https://github.com/1000nettles/foundry-magic-l10n/issues). Thanks!

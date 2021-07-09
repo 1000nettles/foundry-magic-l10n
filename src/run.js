@@ -34,21 +34,35 @@ module.exports = async (manifestUrl) => {
     chalk.green('Manifest URL is valid, submitting to the Foundry Magic L10n service...')
   );
 
+  let isError = false;
+
   const response = await axios.get(Constants.LOCALIZE_URL, {
     params: {
       manifest_url: manifestUrl,
     }
+  }).catch((error) => {
+    isError = true;
+
+    if (error.response.status === 429) {
+      console.log(
+        chalk.yellow(`There are too many localization jobs running by other people! Please wait 10 minutes and try again. (🙈 Sorry, we're working on increasing this limit.)`)
+      );
+
+      return;
+    }
+
+    if (error.response.status !== 200) {
+      console.log(
+        chalk.red(`There was an issue connecting to the Foundry Magic L10n service: ${error.response.data}`)
+      );
+    }
   });
 
-  const jobId = response.data?.jobsId;
-
-  if (response.status !== 200 || !jobId) {
-    console.log(
-      chalk.red(`There was an issue connecting to the Foundry Magic L10n service: ${response.data}`)
-    );
-
+  if (isError) {
     return;
   }
+
+  const jobId = response.data?.jobsId;
 
   // Store our data.
   let jobs = conf.get(Constants.CONF_KEY) || [];

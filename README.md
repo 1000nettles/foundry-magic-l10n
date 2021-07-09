@@ -1,4 +1,4 @@
-# BETA - Foundry Magic L10n 🪄
+# ALPHA - Foundry Magic L10n 🪄
 
 A CLI tool for interacting with the Foundry Magic Localization service, with a dose of magic.
 

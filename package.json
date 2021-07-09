@@ -12,6 +12,7 @@
   "bugs": {
     "url": "https://github.com/1000nettles/foundry-magic-l10n/issues"
   },
+  "keywords": ["foundry", "foundryvtt", "l10n", "i18n", "foundry virtual tabletop"],
   "homepage": "https://github.com/1000nettles/foundry-magic-l10n",
   "dependencies": {
     "axios": "^0.21.1",

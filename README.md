@@ -1,5 +1,7 @@
 # ALPHA - Foundry Magic L10n 🪄
 
+[![Patreon](img/become_a_patron.png)](https://www.patreon.com/1000nettles)
+
 A CLI tool for interacting with the Foundry Magic Localization service, with a dose of magic.
 
 ## What is this, exactly?
@@ -24,16 +26,16 @@ This will install the tool on your computer globally.
 
 We are currently limited to a specific subset of supported FoundryVTT community translations. We're working to expand this with increasing our AWS Quota limits.
 
-* Arabic
-* Chinese (Simplified)
-* French
-* German
-* Italian
-* Japanese
-* Korean
-* Portuguese
-* Russian
-* Spanish
+* Arabic (`ar`)
+* Chinese (Simplified) (`cn`)
+* French (`fr`)
+* German (`de`)
+* Italian (`it`)
+* Japanese (`ja`)
+* Korean (`ko`)
+* Portuguese (`pt-BR`)
+* Russian (`ru`)
+* Spanish (`es`)
 
 ## Future Supported Languages
 

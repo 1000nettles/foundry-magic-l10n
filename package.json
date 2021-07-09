@@ -1,6 +1,6 @@
 {
   "name": "foundry-magic-l10n",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A CLI tool for interacting with the Foundry Magic L10n service.",
   "bin": "./src/main.js",
   "repository": {

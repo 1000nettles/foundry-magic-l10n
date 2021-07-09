@@ -8,7 +8,9 @@ This CLI tool allows you, a module or system developer, to generate 15 different
 
 ## Installation
 
-Run `npm install -g foundry-magic-l18n`
+```
+$ npm install -g foundry-magic-l18n
+```
 
 This will install the tool on your computer globally.
 

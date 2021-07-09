@@ -2,10 +2,6 @@
   "name": "foundry-magic-l18n",
   "version": "1.0.0",
   "description": "A CLI tool for interacting with the Foundry Magic L18n service.",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": "./src/main.js",
   "repository": {
     "type": "git",
@@ -16,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/1000nettles/foundry-magic-l18n/issues"
   },
-  "homepage": "https://github.com/1000nettles/foundry-magic-l18n#readme",
+  "homepage": "https://github.com/1000nettles/foundry-magic-l18n",
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.1",

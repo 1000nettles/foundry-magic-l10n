@@ -1,6 +1,6 @@
 {
   "name": "foundry-magic-l10n",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A CLI tool for interacting with the Foundry Magic L10n service.",
   "bin": "./src/main.js",
   "repository": {
@@ -12,7 +12,13 @@
   "bugs": {
     "url": "https://github.com/1000nettles/foundry-magic-l10n/issues"
   },
-  "keywords": ["foundry", "foundryvtt", "l10n", "i18n", "foundry virtual tabletop"],
+  "keywords": [
+    "foundry",
+    "foundryvtt",
+    "l10n",
+    "i18n",
+    "foundry virtual tabletop"
+  ],
   "homepage": "https://github.com/1000nettles/foundry-magic-l10n",
   "dependencies": {
     "axios": "^0.21.1",

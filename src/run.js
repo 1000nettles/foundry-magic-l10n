@@ -1,23 +1,27 @@
+'use strict';
+
 const chalk = require('chalk');
 const conf = new (require('conf'))();
 const axios = require('axios');
 const Constants = require('./Constants');
 
 /**
- * Run the localizations.
+ * The `run` command.
  *
- * @param {string} manifest
- *   The URL to the manifest URL.
+ * Run the localizations on the service.
+ *
+ * @param {string} manifestUrl
+ *   The URL to the manifest.
  *
  * @return {Promise<void>}
  */
-module.exports = async (manifest) => {
+module.exports = async (manifestUrl) => {
   if (_checkJobAlreadyRunning()) {
     return;
   }
 
   try {
-    new URL(manifest);
+    new URL(manifestUrl);
   } catch (e) {
     console.log(
       chalk.red('Specified manifest URL is not valid')
@@ -32,7 +36,7 @@ module.exports = async (manifest) => {
 
   const response = await axios.get(Constants.LOCALIZE_URL, {
     params: {
-      manifest_url: manifest,
+      manifest_url: manifestUrl,
     }
   });
 
@@ -47,7 +51,7 @@ module.exports = async (manifest) => {
   }
 
   // Store our data.
-  let jobs = conf.get(confKey) || [];
+  let jobs = conf.get(Constants.CONF_KEY) || [];
   jobs.push({
     jobId,
     status: Constants.STATUS_PROCESSING,
@@ -84,9 +88,11 @@ function _checkJobAlreadyRunning() {
 
   for (const job of jobs) {
     if (job.status === Constants.STATUS_PROCESSING) {
-      console.log(chalk.yellow(
-        `You are currently processing another job with ID ${job.jobId}. Please wait until this job is finished before running again.`
-      ));
+      console.log(
+        chalk.yellow(
+          `You are currently processing another job with ID ${job.jobId}. Please wait until this job is finished before running again.`
+        )
+      );
       console.log(
         chalk.yellow(`Check up on this job by running `)
         + chalk.cyan('foundry-magic-l18n list')

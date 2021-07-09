@@ -1,3 +1,8 @@
+'use strict';
+
+/**
+ * A class storing all our shared constants.
+ */
 module.exports = class Constants {
   static get BASE_URL() {
     return 'https://wve2ggwi04.execute-api.us-east-1.amazonaws.com/staging/';

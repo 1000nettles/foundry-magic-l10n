@@ -1,3 +1,5 @@
+'use strict';
+
 const chalk = require('chalk');
 const axios = require('axios');
 const conf = new (require('conf'))();
@@ -15,7 +17,8 @@ module.exports = async () => {
 
   if (!jobs.length) {
     console.log(
-      chalk.green('No jobs found! Localize a module by running: ') + chalk.cyan('foundry-magic-l18n run <your_manifest_url_here>')
+      chalk.green('No jobs found! Localize a module by running: ')
+      + chalk.cyan('foundry-magic-l18n run <your_manifest_url_here>')
     );
 
     return;
@@ -82,7 +85,7 @@ async function _getJobUpdate(job) {
   if (response.data?.status === Constants.STATUS_COMPLETE) {
     job.status = Constants.STATUS_COMPLETE;
     job.completed = Date.now();
-    job.download = response.data.download
+    job.download = response.data.download;
 
     return job;
   }

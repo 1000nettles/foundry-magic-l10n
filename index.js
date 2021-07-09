@@ -10,6 +10,10 @@ const localizeUrl = baseUrl + 'localize';
 const retrieveUrl = baseUrl + 'retrieve';
 const confKey = 'jobs';
 
+const STATUS_FAILED = 'FAILED';
+const STATUS_PROCESSING = 'PROCESSING';
+const STATUS_COMPLETE = 'COMPLETE';
+
 program
   .command('run <manifest_url>')
   .description('Run the Foundry Magic L18n on the provided manifest URL. Manifest must be publicly accessible.')
@@ -49,7 +53,7 @@ async function run(manifest) {
     }
   });
 
-  if (response.status !== 200) {
+  if (response.status !== 200 || !response.data?.jobsId) {
     console.log(
       chalk.red(`There was an issue connecting to the Foundry Magic L18n service: ${response.data}`)
     );
@@ -59,38 +63,101 @@ async function run(manifest) {
 
   const jobId = response.data.jobsId;
 
-  console.log(
-    chalk.green('Success! Your localization is processing. Your job ID is ')
-    + chalk.green.bold(jobId)
-  );
-
   // Store our data.
   let jobs = conf.get(confKey) || [];
   jobs.push({
     jobId,
-    status: 'PROCESSING',
+    status: STATUS_PROCESSING,
     started: Date.now(),
-    completed: null,
-    comments: '',
   });
+
   conf.set(confKey, jobs);
-}
 
-function list() {
-  let data = conf.get(confKey) || [];
-
-  let finalData = [];
-
-  for (datum of data) {
-    datum.started = new Date(datum.started).toLocaleDateString()
-      + ' '
-      + new Date(datum.started).toLocaleTimeString();
-    finalData.push(datum);
-  }
+  // Tell the user that pushing the job was successful.
+  console.log(
+    chalk.green('🥳 Success! Your localization is processing. Your job ID is ')
+    + chalk.green.bold(jobId)
+  );
 
   console.log(
-    finalData
+    chalk.green('Check up on your processing job by running: ')
+    + chalk.cyan('foundry-magic-l18n list')
   );
+
+  console.log(
+    chalk.green('Once complete, you will find a download URL in the list. This usually takes around 15 - 20 minutes.')
+  );
+}
+
+async function list() {
+  let jobs = conf.get(confKey) || [];
+
+  if (!jobs.length) {
+    console.log(
+      chalk.green('No jobs found! Localize a module by running: ') + chalk.cyan('foundry-magic-l18n run <your_manifest_url_here>')
+    );
+
+    return;
+  }
+
+  let finalJobs = [];
+  let outputData = [];
+
+  for (let job of jobs) {
+    if (job.status === STATUS_PROCESSING) {
+      job = await _getJobUpdate(job);
+    }
+
+    finalJobs.push(job);
+
+    // Format dates for visual presentation.
+    job.started = _getFormattedDate(job.started);
+
+    if (job?.completed) {
+      job.completed = _getFormattedDate(job.completed);
+    }
+
+    outputData.push(job);
+  }
+
+  conf.set(confKey, finalJobs);
+  console.log(outputData);
+}
+
+async function _getJobUpdate(job) {
+  if (job.status === STATUS_COMPLETE || job.status === STATUS_FAILED) {
+    return job;
+  }
+
+  const response = await axios.get(retrieveUrl, {
+    params: {
+      jobs_id: job.jobId,
+    }
+  });
+
+  if (response.status !== 200) {
+    const error = `There was an issue with the job: ${response.data}`;
+
+    job.status = STATUS_FAILED;
+    job.error = error;
+    return job;
+  }
+
+  if (response.data?.status === STATUS_COMPLETE) {
+    job.download = response.data.download
+    job.status = STATUS_COMPLETE;
+    job.completed = Date.now();
+
+    return job;
+  }
+
+  return job;
+}
+
+function _getFormattedDate(timestamp) {
+  return new Date(timestamp).toLocaleDateString()
+    + ' '
+    + new Date(timestamp).toLocaleTimeString();
 }
 
 program.parse();

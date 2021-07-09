@@ -33,6 +33,10 @@ program
  * @return {Promise<void>}
  */
 async function run(manifest) {
+  if (_checkJobAlreadyRunning()) {
+    return;
+  }
+
   try {
     new URL(manifest);
   } catch (e) {
@@ -53,7 +57,9 @@ async function run(manifest) {
     }
   });
 
-  if (response.status !== 200 || !response.data?.jobsId) {
+  const jobId = response.data?.jobsId;
+
+  if (response.status !== 200 || !jobId) {
     console.log(
       chalk.red(`There was an issue connecting to the Foundry Magic L18n service: ${response.data}`)
     );
@@ -61,10 +67,8 @@ async function run(manifest) {
     return;
   }
 
-  const jobId = response.data.jobsId;
-
   // Store our data.
-  let jobs = conf.get(confKey) || [];
+
   jobs.push({
     jobId,
     status: STATUS_PROCESSING,
@@ -89,6 +93,13 @@ async function run(manifest) {
   );
 }
 
+/**
+ * The `list` command.
+ *
+ * List any and all jobs executed by the user, and their relevant details.
+ *
+ * @return {Promise<void>}
+ */
 async function list() {
   let jobs = conf.get(confKey) || [];
 
@@ -111,19 +122,34 @@ async function list() {
     finalJobs.push(job);
 
     // Format dates for visual presentation.
-    job.started = _getFormattedDate(job.started);
+    // Clone the job so we don't overwrite its values with visual presentation.
+    const jobClone = { ...job };
 
-    if (job?.completed) {
-      job.completed = _getFormattedDate(job.completed);
+    jobClone.started = _getFormattedDate(jobClone.started);
+
+    if (jobClone?.completed) {
+      jobClone.completed = _getFormattedDate(jobClone.completed);
     }
 
-    outputData.push(job);
+    outputData.push(jobClone);
   }
 
   conf.set(confKey, finalJobs);
+
+  // Put latest job at the top.
+  outputData = outputData.reverse();
   console.log(outputData);
 }
 
+/**
+ * Reach out to the service to get an update on the job.
+ *
+ * @param {object} job
+ *   The job that we store in our tool.
+ *
+ * @return {Promise<*>}
+ * @private
+ */
 async function _getJobUpdate(job) {
   if (job.status === STATUS_COMPLETE || job.status === STATUS_FAILED) {
     return job;
@@ -154,6 +180,43 @@ async function _getJobUpdate(job) {
   return job;
 }
 
+/**
+ * Check if a job is already running and if it is, let the user know there
+ * can only be one-at-a-time.
+ *
+ * @return {boolean}
+ * @private
+ */
+function _checkJobAlreadyRunning() {
+  let jobs = conf.get(confKey) || [];
+
+  for (const job of jobs) {
+    if (job.status === STATUS_PROCESSING) {
+      console.log(chalk.yellow(
+        `You are currently processing another job with ID ${job.jobId}. Please wait until this job is finished before running again.`
+      ));
+      console.log(
+        chalk.yellow(`Check up on this job by running `)
+        + chalk.cyan('foundry-magic-l18n list')
+      );
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Get a human-readable date from a UNIX timestamp.
+ *
+ * @param {number} timestamp
+ *   The UNIX timestamp provided.
+ *
+ * @return {string}
+ *   The human-readable date.
+ *
+ * @private
+ */
 function _getFormattedDate(timestamp) {
   return new Date(timestamp).toLocaleDateString()
     + ' '

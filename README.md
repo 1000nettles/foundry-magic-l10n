@@ -50,7 +50,6 @@ Once our quota limits are increased...
 ## Known Limitations
 
 * Only **ONE** individual can be running translation jobs at one time. We're aware this is an insane limitation, and we're working on getting the quota limits increased. 🙈 Sorry! You're welcome to try running the `run` command and seeing if the service is currently available for you.
-* Injecting dynamic values into translation strings not currently supported. For example "My name is {user}"... "{user}" is parsed by the translator as a word  
 * Jobs take 15 - 20 minutes to run - just how AWS Translate's batch processing works, even for smaller amounts of text
 * Only a subset of languages (see above)
 

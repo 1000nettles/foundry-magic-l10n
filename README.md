@@ -41,11 +41,11 @@ We are currently limited to a specific subset of supported FoundryVTT community 
 
 Once our quota limits are increased...
 
-* Chinese (Traditional)
-* Czech
-* Finnish
-* Polish
-* Swedish
+* Chinese (Traditional) (`zh-TW`)
+* Czech (`cs`)
+* Finnish (`fi`)
+* Polish (`pl`)
+* Swedish (`sv`)
 
 ## Known Limitations
 
@@ -55,11 +55,13 @@ Once our quota limits are increased...
 
 ## FAQ
 
-* What is the "Foundry Magic L10n Service"
-   * It's a AWS-powered service to execute the heavy lifting of marshaling the module files, translating them, creating the downloads, etc. This tool interacts with that service.
+* What is the "Foundry Magic L10n Service"?
+   * Also built by myself, it's a AWS-powered service to execute the heavy lifting of marshaling the module files, translating them, creating the downloads, etc. This tool interacts with that service,
 * Is this a complete replacement for human-translated strings? 
    * Nope - AWS Translate is really good, but there will always be things that a human will translate better than a machine.
+* How "good" are the translations? Can I trust them to make sense to native speakers?
+   * AWS Translate is already used by a lot of larger companies for translation generation today. It's my thinking that with this service, even if a translation isn't 100% perfect, we should be able to get really close to it. Check out the [AWS Translate Customer Testimonials](https://aws.amazon.com/translate/customers/) and [this article diving into the service](https://medium.com/swlh/how-good-is-amazon-translate-8e9f08b41789).
 * Will this generate files for existing translations / language files I have within my module?
   * Yes it will - it will generate all the supported languages. This is helpful if you already have translation files but they do not contain all the new strings added to the `en` language. It is still up to you to copy over the relevant new strings.
-* I got an error, where do I report it?
+* I got an error or found a bug, where do I report it?
    * Please add an issue [here](https://github.com/1000nettles/foundry-magic-l10n/issues). Thanks!

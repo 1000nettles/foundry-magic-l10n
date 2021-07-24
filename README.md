@@ -6,7 +6,9 @@ A CLI tool for interacting with the Foundry Magic Localization service, with a d
 
 ## What is this, exactly?
 
-This CLI tool allows you, _a module or system developer_, to generate 10 different localization files in the FoundryVTT "language file" format. This utilizes [AWS Translate](https://aws.amazon.com/translate/) - a "fluent and accurate machine translation" engine. It takes your base English translations, and converts them into language files for you to download and include in your own modules and systems.
+This CLI tool allows you, _a module or system developer_, to generate 15 different localization files in the FoundryVTT "language file" format. This utilizes [AWS Translate](https://aws.amazon.com/translate/) - a "fluent and accurate machine translation" engine. It takes your base English translations, and converts them into language files for you to download and include in your own modules and systems.
+
+
 
 ## Installation
 
@@ -24,34 +26,28 @@ This will install the tool on your computer globally.
 
 ## Supported Languages
 
-We are currently limited to a specific subset of supported FoundryVTT community translations. We're working to expand this with increasing our AWS Quota limits.
+We currently support all of the [community-provided core translations](https://foundryvtt.wiki/en/languages).
 
 * Arabic (`ar`)
+* Catalan (`ca`)
+* Czech (`cs`)
 * Chinese (Simplified) (`cn`)
+* Chinese (Traditional) (`zh-TW`)
 * French (`fr`)
 * German (`de`)
 * Italian (`it`)
 * Japanese (`ja`)
 * Korean (`ko`)
+* Polish (`pl`)
 * Portuguese (`pt-BR`)
 * Russian (`ru`)
 * Spanish (`es`)
-
-## Future Supported Languages
-
-Once our quota limits are increased...
-
-* Chinese (Traditional) (`zh-TW`)
-* Czech (`cs`)
-* Finnish (`fi`)
-* Polish (`pl`)
 * Swedish (`sv`)
 
 ## Known Limitations
 
 * Only **ONE** individual can be running translation jobs at one time. We're aware this is an insane limitation, and we're working on getting the quota limits increased. 🙈 Sorry! You're welcome to try running the `run` command and seeing if the service is currently available for you.
 * Jobs take 15 - 20 minutes to run - just how AWS Translate's batch processing works, even for smaller amounts of text
-* Only a subset of languages (see above)
 
 ## FAQ
 
@@ -62,6 +58,6 @@ Once our quota limits are increased...
 * How "good" are the translations? Can I trust them to make sense to native speakers?
    * AWS Translate is already used by a lot of larger companies for translation generation today. It's my thinking that with this service, even if a translation isn't 100% perfect, we should be able to get really close to it. Check out the [AWS Translate Customer Testimonials](https://aws.amazon.com/translate/customers/) and [this article diving into the service](https://medium.com/swlh/how-good-is-amazon-translate-8e9f08b41789).
 * Will this generate files for existing translations / language files I have within my module?
-  * Yes it will - it will generate all the supported languages. This is helpful if you already have translation files but they do not contain all the new strings added to the `en` language. It is still up to you to copy over the relevant new strings.
+  * Yes it will - it will generate all the supported languages. If you have existing translations, this tool will only generate new translations based off any missing translations from your English language file. All language files are generated as `[language]-magicl10n.json` to be able to easily separate which are machine-translated and which are human-translated.
 * I got an error or found a bug, where do I report it?
    * Please add an issue [here](https://github.com/1000nettles/foundry-magic-l10n/issues). Thanks!
